@@ -13,7 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DPL.PMTool.Contracts.Client\DPL.PMTool.Contracts.Client.csproj" />
     <ProjectReference Include="..\DPL.PMTool.Managers.Shared\DPL.PMTool.Managers.Shared.csproj" />
+    <ProjectReference Include="..\DPL.PMTool.Managers\DPL.PMTool.Managers.csproj" />
   </ItemGroup>
 
 </Project>

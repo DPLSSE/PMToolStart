@@ -13,41 +13,38 @@ export class PlanningService {
   public async newProject(): Promise<Project> {
     const promise = new Promise<Project>((resolve, reject) => {
       resolve({
-        id: 1,
+        id: 0,
         name: 'eCommerce',
         start: new Date(),
         activities: [{
-          id: 1,
+          id: 0,
           taskName: 'Setup DB',
           start: new Date(),
           finish: new Date(),
           estimate: 1.0,
           predecessors: "1",
           resource: 'Doug',
-          priority: 500,
-          projectId: 1          
+          priority: 400,
         },
         {
-          id: 2,
+          id: 0,
           taskName: 'Catalog Access',
           start: new Date(),
           finish: new Date(),
           estimate: 1.0,
           predecessors: "1",
           resource: 'Doug',
-          priority: 500,
-          projectId: 1
+          priority: 600,
         },
         {
-          id: 3,
+          id: 0,
           taskName: 'Order Access',
           start: new Date(),
           finish: new Date(),
           estimate: 1.0,
           predecessors: "1",
           resource: 'Doug',
-          priority: 500,
-          projectId: 1
+          priority: 800,
         }]
       });
     });

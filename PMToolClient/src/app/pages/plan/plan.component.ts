@@ -51,7 +51,6 @@ export class PlanComponent implements OnInit {
       predecessors: '1',
       resource: 'Doug',
       priority: 500,
-      projectId: 1,
     });
   }
 }

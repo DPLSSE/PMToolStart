@@ -309,6 +309,7 @@
             </e>
           </e>
         </e>
+        <e p="PlanningManagerTests.cs" t="Include" />
       </e>
       <e p="DPL.PMTool.Utilities" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />

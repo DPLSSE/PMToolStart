@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("DPL.PMTool.Tests.AccessorTests")]
-
+[assembly: InternalsVisibleTo("DPL.PMTool.Tests.ManagerTests")]
 namespace DPL.PMTool.Accessors.Shared
 {
     internal static class DTOMapper

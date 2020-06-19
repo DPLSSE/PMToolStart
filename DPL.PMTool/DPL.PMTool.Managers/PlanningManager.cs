@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using DPL.PMTool.Accessors;
 using DPL.PMTool.Managers.Shared;
 
@@ -39,13 +41,54 @@ namespace DPL.PMTool.Managers
         public Project SaveProject(Project project)
         {
             var projectAccess = AccessorFactory.CreateAccessor<IProjectAccess>();
+
+            var dbProject = new DPL.PMTool.Accessors.Shared.EntityFramework.Project()
+            {
+                Name = project.Name,
+                Id =  project.Id,
+                Start = project.Start,
+            };
+
+            var savedProject = projectAccess.SaveProject(dbProject);
+            var resultProject = new Project()
+            {
+                Id = savedProject.Id,
+                Start = savedProject.Start,
+                Name = savedProject.Name
+            };
             
-            // you will need to copy properties across to the database versions of project / activity
-            // var saved = projectAccess.SaveProject(dbProject);
-            // return saved;
-            
-            // you will need to return a project, with data from the database.
-            return project; // don't return this version.
+            var activities = new List<Activity>();
+            foreach (var activity in project.Activities)
+            {
+                var dbActivity = new DPL.PMTool.Accessors.Shared.EntityFramework.Activity()
+                {
+                    Id = activity.Id,
+                    Estimate = activity.Estimate,
+                    TaskName = activity.TaskName,
+                    Predecessors = activity.Predecessors,
+                    Priority = activity.Priority,
+                    Finish = activity.Finish,
+                    Start = activity.Start,
+                    Resource = activity.Resource,
+                    ProjectId = dbProject.Id
+                };
+                var savedActivity = projectAccess.SaveActivity(dbActivity);
+                activities.Add(new Activity()
+                {
+                    Id = savedActivity.Id,
+                    Estimate = savedActivity.Estimate,
+                    TaskName = savedActivity.TaskName,
+                    Start = savedActivity.Start,
+                    Finish = savedActivity.Finish,
+                    Predecessors = savedActivity.Predecessors,
+                    Priority = savedActivity.Priority,
+                    Resource = savedActivity.Resource,
+                });
+            }
+
+            resultProject.Activities = activities.ToArray();
+
+            return resultProject;
         }
     }
 }

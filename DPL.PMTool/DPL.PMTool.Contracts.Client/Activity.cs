@@ -12,6 +12,5 @@ namespace DPL.PMTool.Managers
         public decimal Priority { get; set; }
         public DateTime Start { get; set; }
         public DateTime Finish { get; set; }
-        public int ProjectId { get; set; }
     }
 }
