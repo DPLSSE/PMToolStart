@@ -16,30 +16,68 @@ namespace DPL.PMTool.Managers
             };
         }
 
-        public Project Project(int id)
+        public Project NewProject()
         {
-            // this should load from the ProjectAccess service.
-            // var projectAccess = AccessorFactory.CreateAccessor<IProjectAccess>();
-            // var dbProject = projectAccess.Project(id);
-            // convert db project to client version
-            
             return new Project()
             {
-                Id =  id,
-                Name = "TEST",
+                Id = 0,
+                Name = "NEW",
                 Start = DateTime.Now,
-                Activities = new [] {
+                Activities = new[]
+                {
                     new Activity()
                     {
-                        TaskName = "TEST",
+                        Id = 0,
+                        TaskName = "NEW"
                     }
                 }
             };
+        }
+
+        public Project Project(int id)
+        {
+            var projectAccess = AccessorFactory.CreateAccessor<IProjectAccess>();
+
+            var loadedDbProject = projectAccess.Project(id);
+            if (loadedDbProject == null)
+            {
+                return null;
+            }
+
+            var resultProject = new Project()
+            {
+                Id = loadedDbProject.Id,
+                Start = loadedDbProject.Start,
+                Name = loadedDbProject.Name
+            };
+
+            var dbActivities = projectAccess.ActivitiesForProject(id);
+            var activities = new List<Activity>();
+            foreach (var dbActivity in dbActivities)
+            {
+                activities.Add(new Activity()
+                {
+                    Id = dbActivity.Id,
+                    Estimate = dbActivity.Estimate,
+                    TaskName = dbActivity.TaskName,
+                    Start = dbActivity.Start,
+                    Finish = dbActivity.Finish,
+                    Predecessors = dbActivity.Predecessors,
+                    Priority = dbActivity.Priority,
+                    Resource = dbActivity.Resource,
+                });
+            }
+            resultProject.Activities = activities.ToArray();
+
+            return resultProject;
         }
         
         
         public Project SaveProject(Project project)
         {
+            if (project == null)
+                throw new InvalidOperationException("project cannot be null");
+            
             var projectAccess = AccessorFactory.CreateAccessor<IProjectAccess>();
 
             var dbProject = new DPL.PMTool.Accessors.Shared.EntityFramework.Project()
@@ -50,14 +88,7 @@ namespace DPL.PMTool.Managers
             };
 
             var savedProject = projectAccess.SaveProject(dbProject);
-            var resultProject = new Project()
-            {
-                Id = savedProject.Id,
-                Start = savedProject.Start,
-                Name = savedProject.Name
-            };
             
-            var activities = new List<Activity>();
             foreach (var activity in project.Activities)
             {
                 var dbActivity = new DPL.PMTool.Accessors.Shared.EntityFramework.Activity()
@@ -72,23 +103,28 @@ namespace DPL.PMTool.Managers
                     Resource = activity.Resource,
                     ProjectId = dbProject.Id
                 };
-                var savedActivity = projectAccess.SaveActivity(dbActivity);
-                activities.Add(new Activity()
+                projectAccess.SaveActivity(dbActivity);
+            }
+
+            return Project(savedProject.Id);
+        }
+
+        public ProjectListItem[] Projects()
+        {
+            var projectAccess = AccessorFactory.CreateAccessor<IProjectAccess>();
+
+            var projects = new List<ProjectListItem>();
+            var dbProjects = projectAccess.Projects();
+            foreach (var dbProject in dbProjects)
+            {
+                projects.Add(new ProjectListItem()
                 {
-                    Id = savedActivity.Id,
-                    Estimate = savedActivity.Estimate,
-                    TaskName = savedActivity.TaskName,
-                    Start = savedActivity.Start,
-                    Finish = savedActivity.Finish,
-                    Predecessors = savedActivity.Predecessors,
-                    Priority = savedActivity.Priority,
-                    Resource = savedActivity.Resource,
+                    Id = dbProject.Id,
+                    Name = dbProject.Name
                 });
             }
 
-            resultProject.Activities = activities.ToArray();
-
-            return resultProject;
+            return projects.ToArray();
         }
     }
 }

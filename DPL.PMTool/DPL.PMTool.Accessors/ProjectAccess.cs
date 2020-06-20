@@ -1,5 +1,9 @@
+using System;
+using System.Diagnostics;
 using System.Linq;
 using DPL.PMTool.Accessors.Shared.EntityFramework;
+using Microsoft.EntityFrameworkCore;
+using Activity = DPL.PMTool.Accessors.Shared.EntityFramework.Activity;
 
 namespace DPL.PMTool.Accessors
 {
@@ -25,15 +29,20 @@ namespace DPL.PMTool.Accessors
         {
             using (var db = DatabaseContext.Create())
             {
+                project.UpdatedAt = DateTime.Now;
+                
                 if (project.Id == 0)
                 {
+                    project.CreatedAt = DateTime.Now;
                     db.Projects.Add(project);
                 }
                 else
                 {
-                    db.Projects.Attach(project);
+                    var loaded = db.Projects.Find(project.Id);
+                    loaded.Name = project.Name;
+                    loaded.Start = project.Start;
+                    loaded.UpdatedAt = DateTime.Now;
                 }
-
                 db.SaveChanges();
             }
 
@@ -52,13 +61,23 @@ namespace DPL.PMTool.Accessors
         {
             using (var db = DatabaseContext.Create())
             {
+                activity.UpdatedAt = DateTime.Now;
                 if (activity.Id == 0)
                 {
+                    activity.CreatedAt = DateTime.Now;
                     db.Activities.Add(activity);
                 }
                 else
                 {
-                    db.Activities.Attach(activity);
+                    var dbActivity = db.Activities.Find(activity.Id);
+                    dbActivity.Estimate = activity.Estimate;
+                    dbActivity.Finish = activity.Finish;
+                    dbActivity.Predecessors = activity.Predecessors;
+                    dbActivity.Priority = activity.Priority;
+                    dbActivity.Resource = activity.Resource;
+                    dbActivity.Start = activity.Start;
+                    dbActivity.TaskName = activity.TaskName;
+                    dbActivity.UpdatedAt = activity.UpdatedAt;
                 }
 
                 db.SaveChanges();

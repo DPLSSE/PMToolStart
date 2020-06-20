@@ -21,11 +21,20 @@ namespace DPL.PMTool.Client.Web.Controllers
         {
             return _planningManager.TestMe();
         }
-        
+
+        public Project NewProject()
+        {
+            return _planningManager.NewProject();
+        }
         
         public Project Project(int id)
         {
             return _planningManager.Project(id);
+        }
+        
+        public ProjectListItem[] Projects()
+        {
+            return _planningManager.Projects();
         }
         
         [HttpPost]

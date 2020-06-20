@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Project } from 'src/app/dtos/Project';
 import { ProjectListItem } from 'src/app/dtos/ProjectListItem';
 import { Router } from '@angular/router';
+import { PlanningService } from 'src/app/services/planning.service';
 
 @Component({
   selector: 'app-plan-list',
@@ -12,17 +13,11 @@ export class PlanListComponent implements OnInit {
 
   projects: ProjectListItem[];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private planning: PlanningService) { }
 
-  ngOnInit(): void {
-    this.projects = [{
-      id: 1,
-      name: 'project 1',
-    }, {
-      id: 2,
-      name: 'project 2',
-    }
-    ];
+  async ngOnInit() {
+
+    this.projects = await this.planning.projects();
   }
 
   openProject(id: number) {

@@ -29,6 +29,7 @@ export class PlanComponent implements OnInit {
       console.log(params.id);
       if (params.id > 0) {
         // load a project
+        this.project = await this.planningService.project(params.id);
       } else {
         // new project
         this.project = await this.planningService.newProject();

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Project } from '../dtos/Project';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { ProjectListItem } from '../dtos/ProjectListItem';
 
 @Injectable({
   providedIn: 'root'
@@ -11,49 +12,24 @@ export class PlanningService {
   constructor(private httpClient: HttpClient) { }
 
   public async newProject(): Promise<Project> {
-    const promise = new Promise<Project>((resolve, reject) => {
-      resolve({
-        id: 0,
-        name: 'eCommerce',
-        start: new Date(),
-        activities: [{
-          id: 0,
-          taskName: 'Setup DB',
-          start: new Date(),
-          finish: new Date(),
-          estimate: 1.0,
-          predecessors: "1",
-          resource: 'Doug',
-          priority: 400,
-        },
-        {
-          id: 0,
-          taskName: 'Catalog Access',
-          start: new Date(),
-          finish: new Date(),
-          estimate: 1.0,
-          predecessors: "1",
-          resource: 'Doug',
-          priority: 600,
-        },
-        {
-          id: 0,
-          taskName: 'Order Access',
-          start: new Date(),
-          finish: new Date(),
-          estimate: 1.0,
-          predecessors: "1",
-          resource: 'Doug',
-          priority: 800,
-        }]
-      });
-    });
-    return promise;
+    return this.httpClient.get<Project>(
+      'https://localhost:5001/Planning/NewProject').toPromise();
+  }
+  
+  public async project(id: number): Promise<Project> {
+    // note: the data might not match with server.
+    return this.httpClient.get<Project>(
+      'https://localhost:5001/Planning/Project?id=' + id).toPromise();
   }
 
   public async saveProject(project: Project): Promise<Project> {
     // note: the data might not match with server.
     return this.httpClient.post<Project>(
       'https://localhost:5001/Planning/SaveProject', project).toPromise();
+  }
+
+  public async projects(): Promise<ProjectListItem[]> {
+    return this.httpClient.get<ProjectListItem[]>(
+      'https://localhost:5001/Planning/Projects').toPromise();
   }
 }

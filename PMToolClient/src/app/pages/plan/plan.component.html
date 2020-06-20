@@ -1,8 +1,10 @@
 <form>
     <label>NAME: </label>
-    <input type="text" class="form-control" [(ngModel)]="project.name" [ngModelOptions]="{standalone: true}">
+    <input type="text" class="form-control" [ngModel]="project.name" [ngModelOptions]="{standalone: true}">
     <label>DATE: </label>
-    <input type="date" class="form-control" [(ngModel)]="project.start" [ngModelOptions]="{standalone: true}">
+    <input type="date" class="form-control" 
+        [ngModel]="project.start | date:'yyyy-MM-dd'" 
+        [ngModelOptions]="{standalone: true}">
 </form>
 <table>
     <tr>
@@ -30,10 +32,10 @@
             <input type="text" class="form-control" [(ngModel)]="data.priority">
         </td>
         <td>
-            {{ data.start }}
+            {{ data.start | date :'shortDate' }}
         </td>
         <td>
-            {{ data.finish }}
+            {{ data.finish | date:'shortDate' }}
         </td>
     </tr>
 </table>
