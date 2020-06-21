@@ -25,6 +25,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\001\001.InitialScript.sql" />
     <EmbeddedResource Include="Scripts\001\002.Activities.sql" />
+    <EmbeddedResource Include="Scripts\001\003.ActivitiesSequence.sql" />
   </ItemGroup>
 
   <ItemGroup>

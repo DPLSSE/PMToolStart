@@ -1,5 +1,6 @@
 export interface Activity {
     id: number;
+    sequence: number;
     taskName: string;
     estimate: number;
     predecessors: string;

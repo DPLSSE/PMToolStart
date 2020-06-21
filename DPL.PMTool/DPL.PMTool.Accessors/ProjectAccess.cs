@@ -70,6 +70,7 @@ namespace DPL.PMTool.Accessors
                 else
                 {
                     var dbActivity = db.Activities.Find(activity.Id);
+                    dbActivity.Sequence = activity.Sequence;
                     dbActivity.Estimate = activity.Estimate;
                     dbActivity.Finish = activity.Finish;
                     dbActivity.Predecessors = activity.Predecessors;

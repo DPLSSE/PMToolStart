@@ -14,13 +14,13 @@
     </tr>
     <tr *ngFor="let data of project.activities"> 
         <td>
-            {{ data.id }}
+            {{ data.sequence }}
         </td>
         <td>
             <input type="text" class="form-control" [(ngModel)]="data.taskName">
         </td>
         <td>
-            <input type="text" class="form-control" [(ngModel)]="data.estimate">
+            <input type="number" class="form-control" [(ngModel)]="data.estimate">
         </td>
         <td>
             <input type="text" class="form-control" [(ngModel)]="data.predecessors">
@@ -41,5 +41,8 @@
 </table>
 <div>
     <button (click)="saveProject()">SAVE</button>
-    <button (click)="addRow()">ADD ROW</button>
+    <button (click)="addRow()">ADD ROW</button>    
+</div>
+<div>
+    <a href="/planlist">Plans</a>
 </div>

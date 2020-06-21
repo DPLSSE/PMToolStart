@@ -42,9 +42,20 @@ export class PlanComponent implements OnInit {
     console.log(this.project);
   }
 
+  nextSequence(): number {
+    let highest = 1;
+    for(const activity of this.project.activities) {
+      if (activity.sequence > highest) {
+        highest = activity.sequence;
+      }
+    }
+    return highest + 1;
+  }
+
   async addRow() {
     this.project.activities.push({
       id: 0,
+      sequence: this.nextSequence(),
       taskName: 'NEW',
       start: new Date(),
       finish: new Date(),

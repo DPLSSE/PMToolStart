@@ -5,6 +5,7 @@ namespace DPL.PMTool.Managers
     public class Activity
     {
         public int Id { get; set; }
+        public int Sequence { get; set; }
         public string TaskName { get; set; }
         public decimal Estimate { get; set; }
         public string Predecessors { get; set; }

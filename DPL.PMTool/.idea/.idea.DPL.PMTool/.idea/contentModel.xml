@@ -212,6 +212,7 @@
           <e p="001" t="Include">
             <e p="001.InitialScript.sql" t="Include" />
             <e p="002.Activities.sql" t="Include" />
+            <e p="003.ActivitiesSequence.sql" t="Include" />
           </e>
         </e>
       </e>

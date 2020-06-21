@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using DPL.PMTool.Accessors;
+using DPL.PMTool.Engines;
 using DPL.PMTool.Managers.Shared;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DPL.PMTool.Managers
 {
@@ -28,6 +30,7 @@ namespace DPL.PMTool.Managers
                     new Activity()
                     {
                         Id = 0,
+                        Sequence = 1,
                         TaskName = "NEW"
                     }
                 }
@@ -58,6 +61,7 @@ namespace DPL.PMTool.Managers
                 activities.Add(new Activity()
                 {
                     Id = dbActivity.Id,
+                    Sequence = dbActivity.Sequence,
                     Estimate = dbActivity.Estimate,
                     TaskName = dbActivity.TaskName,
                     Start = dbActivity.Start,
@@ -77,6 +81,9 @@ namespace DPL.PMTool.Managers
         {
             if (project == null)
                 throw new InvalidOperationException("project cannot be null");
+
+            var scheduleEngine = EngineFactory.CreateEngine<IScheduleEngine>();
+            project = scheduleEngine.CalculateSchedule(project);
             
             var projectAccess = AccessorFactory.CreateAccessor<IProjectAccess>();
 
@@ -94,6 +101,7 @@ namespace DPL.PMTool.Managers
                 var dbActivity = new DPL.PMTool.Accessors.Shared.EntityFramework.Activity()
                 {
                     Id = activity.Id,
+                    Sequence = activity.Sequence,
                     Estimate = activity.Estimate,
                     TaskName = activity.TaskName,
                     Predecessors = activity.Predecessors,
