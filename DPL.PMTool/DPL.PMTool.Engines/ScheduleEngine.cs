@@ -17,7 +17,7 @@ namespace DPL.PMTool.Engines
             var lastDate = project.Start;
             foreach (var activity in ordered)
             {
-                activity.Start = lastDate.AddDays(1);
+                activity.Start = lastDate;
                 if (activity.Estimate <= 0.0M)
                 {
                     activity.Finish = activity.Start.AddDays(1); // default to a day

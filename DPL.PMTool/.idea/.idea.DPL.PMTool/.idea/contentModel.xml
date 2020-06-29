@@ -297,6 +297,7 @@
             </e>
           </e>
         </e>
+        <e p="ScheduleEngineTests.cs" t="Include" />
         <e p="TestEngineBase.cs" t="Include" />
       </e>
       <e p="DPL.PMTool.Tests.ManagerTests" t="IncludeRecursive">
